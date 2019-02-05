@@ -1,0 +1,7 @@
+<div class="bcg mt-4 mb-2 letters">
+  <div class="deck">
+      <div *ngFor="let slot of this.letters" class="letter bcg" id="{{slot.id}}">
+        <img *ngIf="slot.img != mull" class="letterImg" src="{{slot.img}}">
+      </div>
+    </div>
+</div>

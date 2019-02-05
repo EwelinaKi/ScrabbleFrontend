@@ -1,0 +1,18 @@
+.deck {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+  justify-content: center;
+  width: 285px ;
+  padding:20px;
+  margin: auto;
+}
+
+
+.letter {
+  width: 45px;
+  height: 45px;
+  background-color: rgba(0,0,0,.6);
+  align-self: center;
+  justify-self: center;
+}

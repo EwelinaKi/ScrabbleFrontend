@@ -1,0 +1,13 @@
+.points {
+  font-size: 3em;
+  text-align: right;
+}
+
+.score {
+  font-size: small;
+  font-style: italic;
+}
+
+.info {
+  height: 15vh;
+}

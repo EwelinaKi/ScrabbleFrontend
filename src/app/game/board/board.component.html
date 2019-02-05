@@ -1,0 +1,6 @@
+<div class="board" >
+  <div *ngFor="let element of this.board" class="{{element.fieldClass}}" id="{{element.id}}">
+    <img *ngIf="element.img != mull" class="letterImg" src="{{element.img}}">
+  </div>
+</div>
+
