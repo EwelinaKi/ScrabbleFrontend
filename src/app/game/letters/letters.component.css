@@ -8,11 +8,14 @@
   margin: auto;
 }
 
-
-.letter {
+.bcg {
+  background-color: rgba(0,0,0,.4);
+  border-radius: 10px;
   width: 45px;
   height: 45px;
-  background-color: rgba(0,0,0,.6);
-  align-self: center;
-  justify-self: center;
+}
+
+.letterImg {
+  width: 45px;
+  height: 45px;
 }

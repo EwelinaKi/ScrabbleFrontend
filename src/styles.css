@@ -21,22 +21,15 @@
   --danger: #dc3545;
 }
 
-
-
 body {
-  background: url("assets/img/bcg.jpg");
-  width: 100vw;
-  height: 100vh;
-  background-size: cover;
-}
-
-.bcg {
-  background-color: rgba(0,0,0,.4);
-  padding: 5px;
-  border-radius: 5px;
+  /*background: url("assets/img/bcg.jpg");*/
+  background-image: url("assets/img/bcg4.png");
+  background-repeat: repeat;
+  /*width: 100vw;*/
+  /*height: 100vh;*/
+  /*background-size: cover;*/
 }
 
 p {
   color: white;
-
 }

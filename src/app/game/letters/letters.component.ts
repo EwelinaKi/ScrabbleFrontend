@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
+import {GameService} from '../../services/game.service';
+import {BoardService} from '../../services/board.service';
+
 @Component({
   selector: 'app-letters',
   templateUrl: './letters.component.html',
@@ -7,21 +10,18 @@ import {Component, OnInit} from '@angular/core';
 })
 export class LettersComponent implements OnInit {
 
-  letters: any = [];
-
-  constructor() {
+  constructor(private gameService: GameService, private boardService: BoardService) {
   }
 
   ngOnInit() {
+    this.boardService.prepareRack();
+    this.gameService.drawLetters()
+      .subscribe((letters) => {
+        this.boardService.displayLettersInRack(letters);
+      });
+  }
 
-      for (let i = 0; i < 25; i++) {
-        this.letters.push(
-          {
-            id: 'slot' + i,
-            letter: '',
-            img: null,
-          }
-        );
-      }
+  drop(event: DragEvent) {
+    this.boardService.drop(event);
   }
 }

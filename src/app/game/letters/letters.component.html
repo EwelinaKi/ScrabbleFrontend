@@ -1,7 +1,13 @@
-<div class="bcg mt-4 mb-2 letters">
-  <div class="deck">
-      <div *ngFor="let slot of this.letters" class="letter bcg" id="{{slot.id}}">
-        <img *ngIf="slot.img != mull" class="letterImg" src="{{slot.img}}">
-      </div>
+<div class="deck mt-4 mb-2 letters" >
+    <div *ngFor="let el of boardService.rack"
+         id="{{el.coordinates}}"
+         class="{{el.fieldClass}}"
+         (cdkDropListDropped)="drop($event)"
+         cdkDropList>
+      <img *ngIf="el.letter.url !=null"
+           class="letterImg"
+           src="{{el.letter.url}}"
+           cdkDrag>
     </div>
 </div>
+

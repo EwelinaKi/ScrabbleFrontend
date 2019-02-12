@@ -1,6 +1,11 @@
 <div class="board" >
-  <div *ngFor="let element of this.board" class="{{element.fieldClass}}" id="{{element.id}}">
-    <img *ngIf="element.img != mull" class="letterImg" src="{{element.img}}">
-  </div>
+  <div *ngFor="let el of boardService.board"
+       id="{{el.coordinates}}"
+       class="{{el.fieldClass}}"
+       (cdkDropListDropped)="drop($event)"
+       cdkDropList>
+    <img *ngIf="el.letter.url !=null"
+         class="letterImg"
+         src="{{el.letter.url}}"
+         cdkDrag>
 </div>
-
