@@ -39,7 +39,7 @@ export class BoardService {
   displayLettersInRack(letters: string[]) {
     letters.forEach(letter => {
       const slot = this.rack.find((obj) => !obj.letter.character);
-      slot.letter = new Letter(letter, `${this.imgPath}/${letter}.png`);
+      slot.letter = new Letter(letter, `${this.imgPath}/${letter.toUpperCase()}.png`);
     });
   }
 

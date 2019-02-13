@@ -10,7 +10,7 @@ import {map, catchError} from 'rxjs/operators';
 export class GameService {
 
   // TODO replace backend server address
-  baseUrl = 'assets/data/';
+  baseUrl = 'http://localhost:8080/scrabble/';
 
   constructor(private http: HttpClient) {
   }
@@ -18,14 +18,14 @@ export class GameService {
   // TODO obsluzyc zwrot liter/ domyslnie zwracac pusta tablice
   drawLetters(): Observable<any> {
 
-    return this.http.get(this.baseUrl + 'letters.json')
+    return this.http.get(this.baseUrl + 'draw')
       .pipe(
         catchError(this.handleError)
       );
   }
 
   validateMove(bodyBoard: {}): Observable<any> {
-    return this.http.post(this.baseUrl + 'letters.json', bodyBoard)
+    return this.http.post(this.baseUrl + 'jakisEndpoint', bodyBoard)
       .pipe(
         catchError(this.handleError)
       );
