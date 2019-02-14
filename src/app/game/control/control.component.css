@@ -4,6 +4,14 @@
   font-style: italic;
   text-align: right;
   padding-right: 15px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
+#messageBox::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
 }
 
 .points {
