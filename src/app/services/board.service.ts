@@ -40,6 +40,7 @@ export class BoardService {
       t: 'T.png',
       u: 'U.png',
       w: 'W.png',
+      y: 'Y.png',
       z: 'Z.png',
       ż: 'ZZ.png',
       ź: 'ZZZ.png',

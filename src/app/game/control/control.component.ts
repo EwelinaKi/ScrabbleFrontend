@@ -19,15 +19,15 @@ enum MessageTypes {
 export class ControlComponent implements OnInit {
 
   passCounter: object = {
-   // '' player1'' = false,
-   //  player2 = false
+    // '' player1'' = false,
+    //  player2 = false
   };
 
   constructor(private gameService: GameService, private boardService: BoardService) {
   }
 
   ngOnInit() {
-    this.addNewMessage('Nowa gra rozpoczęta.', MessageTypes.warning);
+    this.addNewMessage('Nowa gra rozpoczęta.', MessageTypes.success);
     // this.passCounter.player1 = false;
     // this.passCounter.player2 = false;
   }
@@ -49,6 +49,11 @@ export class ControlComponent implements OnInit {
         el.classList.remove('marked');
         return parseInt(el.parentElement.id);
       });
+
+    if (lettersToExchange.length === 0) {
+      this.addNewMessage(`Nie zaznaczono liter. Kliknij na literę aby ją oznaczyć.`, MessageTypes.warning);
+      return;
+    }
 
     this.gameService.exchangeLetters(lettersToExchange)
       .subscribe(
