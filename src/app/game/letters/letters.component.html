@@ -7,6 +7,7 @@
       <img *ngIf="el.letter.url !=null"
            class="letterImg"
            src="{{el.letter.url}}"
+           (click)="markLetter($event)"
            cdkDrag>
     </div>
 </div>

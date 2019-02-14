@@ -24,7 +24,7 @@ export class BoardService {
 
   prepareRack() {
     for (let i = 0; i < 25; i++) {
-      this.rack.push(new Slot(`slot${i}`, 'letter'));
+      this.rack.push(new Slot(`${i}slot`, 'letter'));
     }
   }
 
@@ -36,7 +36,7 @@ export class BoardService {
     });
   }
 
-  displayLettersInRack(letters: string[]) {
+  displayLettersInRack(letters: any) {
     letters.forEach(letter => {
       const slot = this.rack.find((obj) => !obj.letter.character);
       slot.letter = new Letter(letter, `${this.imgPath}/${letter.toUpperCase()}.png`);

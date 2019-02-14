@@ -19,3 +19,8 @@
   width: 45px;
   height: 45px;
 }
+
+.marked {
+  border: #FFC107 5px groove;
+  border-radius: 13px;
+}

@@ -11,27 +11,39 @@ export class GameService {
 
   // TODO replace backend server address
   baseUrl = 'http://localhost:8080/scrabble/';
+  httpOptions = {
+    headers: new HttpHeaders(
+      {
+        'Content-Type': 'application/json'
+      })
+  };
 
   constructor(private http: HttpClient) {
   }
 
   // TODO obsluzyc zwrot liter/ domyslnie zwracac pusta tablice
-  drawLetters(): Observable<any> {
+  // drawLetters(): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'draw')
+  //     .pipe(
+  //       catchError(this.handleError)
+  //     );
+  // }
 
-    return this.http.get(this.baseUrl + 'draw')
-      .pipe(
-        catchError(this.handleError)
-      );
+  drawLetters() {
+    return this.http.get(this.baseUrl + 'draw');
+  }
+
+  exchangeLetters(letters) {
+    return this.http.post(this.baseUrl + 'draw', letters);
+
   }
 
   validateMove(bodyBoard: {}): Observable<any> {
-    return this.http.post(this.baseUrl + 'jakisEndpoint', bodyBoard)
+    return this.http.post(this.baseUrl + 'board', bodyBoard, )
       .pipe(
         catchError(this.handleError)
       );
   }
-
-
 
   private handleError(error: any) {
     console.error('server error:', error);
