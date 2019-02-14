@@ -18,11 +18,18 @@ enum MessageTypes {
 })
 export class ControlComponent implements OnInit {
 
+  passCounter: object = {
+   // '' player1'' = false,
+   //  player2 = false
+  };
+
   constructor(private gameService: GameService, private boardService: BoardService) {
   }
 
   ngOnInit() {
-    this.addNewMessage("Nowa gra rozpoczęta.", MessageTypes.warning );
+    this.addNewMessage('Nowa gra rozpoczęta.', MessageTypes.warning);
+    // this.passCounter.player1 = false;
+    // this.passCounter.player2 = false;
   }
 
   checkMove() {
@@ -50,7 +57,7 @@ export class ControlComponent implements OnInit {
           this.boardService.displayLettersInRack(res);
           this.addNewMessage(`Nowe litery: ${res}`, MessageTypes.default);
         }, err => {
-          this.addNewMessage("Błąd połączenia. Spróbuj ponownie.", MessageTypes.error);
+          this.addNewMessage('Błąd połączenia. Spróbuj ponownie.', MessageTypes.error);
         }
       );
   }
