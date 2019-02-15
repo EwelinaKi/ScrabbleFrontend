@@ -11,40 +11,6 @@ export class BoardService {
   imgPath = 'assets/img/letters';
   board = [];
   rack = [];
-  letterImages = {
-      A: 'A.png',
-      Ą: 'AA.png',
-      B: 'B.png',
-      C: 'C.png',
-      Ć: 'CC.png',
-      D: 'D.png',
-      E: 'E.png',
-      Ę: 'EE.png',
-      F: 'F.png',
-      G: 'G.png',
-      H: 'H.png',
-      I: 'I.png',
-      J: 'J.png',
-      K: 'K.png',
-      L: 'L.png',
-      Ł: 'LL.png',
-      M: 'M.png',
-      N: 'N.png',
-      Ń: 'NN.png',
-      O: 'O.png',
-      Ó: 'OO.png',
-      P: 'P.png',
-      R: 'R.png',
-      S: 'S.png',
-      Ś: 'SS.png',
-      T: 'T.png',
-      U: 'U.png',
-      W: 'W.png',
-      Y: 'Y.png',
-      Z: 'Z.png',
-      Ż: 'ZZ.png',
-      Ź: 'ZZZ.png',
-  };
 
   constructor() {
   }
@@ -74,9 +40,9 @@ export class BoardService {
   displayLettersInRack(letters: string[]) {
     letters.forEach(letter => {
       const slot = this.rack.find((obj) => !obj.letter.character);
-      slot.letter = new Letter(letter, `${this.imgPath}/${this.letterImages[letter]}`);
+      slot.letter = new Letter(letter, `${this.imgPath}/${letter.charCodeAt(0)}.png`);
     });
-  }
+}
 
   drop(event: DragEvent) {
     const dragElement = this.searchElement(event['previousContainer'].id);
