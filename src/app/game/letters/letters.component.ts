@@ -18,7 +18,7 @@ export class LettersComponent implements OnInit {
     this.gameService.drawLetters()
       .subscribe((letters) => {
         if (this.isStringArray(letters)) {
-          this.boardService.displayLettersInRack(<string[]>letters);
+          this.boardService.putLettersInRack(<string[]>letters);
         } else {
           throw new Error('Got crap');
         }

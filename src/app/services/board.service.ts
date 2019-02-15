@@ -37,12 +37,16 @@ export class BoardService {
     });
   }
 
-  displayLettersInRack(letters: string[]) {
+  putLettersInRack(letters: string[]) {
     letters.forEach(letter => {
       const slot = this.rack.find((obj) => !obj.letter.character);
       slot.letter = new Letter(letter, `${this.imgPath}/${letter.charCodeAt(0)}.png`);
     });
-}
+  }
+
+  countLettersOnRack(): number {
+    return this.rack.reduce((prev, curr) => curr.letter.character !== null ? prev + 1 : prev, 0);
+  }
 
   drop(event: DragEvent) {
     const dragElement = this.searchElement(event['previousContainer'].id);
@@ -61,11 +65,28 @@ export class BoardService {
   }
 
   disableLettersOnBoard() {
-    this.board.forEach(el => el.letter.disabled = true);
+    this.board.forEach(el => {
+      if (el.letter.character) {
+        el.letter.disabled = true;
+      }
+    });
   }
 
   disableAllLetters() {
-   this.disableLettersOnBoard();
-    this.rack.forEach(el => el.letter.disabled = true);
+    this.disableLettersOnBoard();
+    this.rack.forEach(el => {
+      if (el.letter.character) {
+        el.letter.disabled = true;
+      }
+    });
+  }
+
+  reverseBoard() {
+    this.board.forEach(el => {
+      if (!el.letter.disabled) {
+        this.putLettersInRack([el.letter.character]);
+        el.letter = new Letter();
+      }
+    });
   }
 }

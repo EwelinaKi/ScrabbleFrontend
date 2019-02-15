@@ -3,7 +3,6 @@ import {BoardService} from '../../services/board.service';
 import {GameService} from '../../services/game.service';
 import {Letter} from '../letter';
 
-
 enum MessageTypes {
   error = 'text-danger',
   warning = 'text-warning',
@@ -16,11 +15,12 @@ enum MessageTypes {
   templateUrl: './control.component.html',
   styleUrls: ['./control.component.css']
 })
+
 export class ControlComponent implements OnInit {
 
-  passCounter = {
-    player1: false,
-    player2: false
+  players = {
+    player1: {pass: false, score: 0},
+    player2: {pass: false, score: 0}
   };
 
   constructor(private gameService: GameService, private boardService: BoardService) {
@@ -28,20 +28,48 @@ export class ControlComponent implements OnInit {
 
   ngOnInit() {
     this.addNewMessage('Nowa gra rozpoczęta.', MessageTypes.success);
-    this.passCounter.player1 = false;
-    this.passCounter.player2 = false;
+    this.players.player1.pass = false;
+    this.players.player2.pass = false;
   }
 
   checkMove() {
-    this.passCounter['player1'] = false;
-    const board = this.boardService.getBoard().map(element => {
-      return {cellIndex: element.coordinates, letter: element.letter.character};
-    });
-    const onlyLettersBoard = board.filter(value => value.letter !== null);
-    this.gameService.validateMove({board: onlyLettersBoard});
+    this.players.player1.pass = false;
+    const boardToValidate = this.boardService.getBoard()
+      .map(element => {
+        return {cellIndex: element.coordinates, letter: element.letter.character};
+      })
+      .filter(value => value.letter !== null);
+
+    if ((this.boardService.getBoard().filter(el => el.letter.disabled === false)).length === 0) {
+      this.addNewMessage(`Dodaj nowe słowo.`, MessageTypes.warning);
+      return;
+    }
+
+    this.gameService.validateMove({board: boardToValidate})
+      .subscribe(res => {
+        if (res.roundScore === 0) {
+          res.wordsDetails.forEach(el => {
+            if (!el.valid) {
+              this.addNewMessage(`Słowo ${el.word.toUpperCase()} nie znajduje się w słowniku.`, MessageTypes.default);
+            }
+            this.boardService.reverseBoard();
+          });
+        } else {
+          res.wordsDetails.forEach(el => this.addNewMessage(`Nowe słowo ${el.word.toUpperCase()} za ${el.points}pkt`, MessageTypes.default));
+          this.addNewMessage(`WYNIK RUNDY: ${res.roundScore}pkt`, MessageTypes.success);
+          this.players.player1.score = res.totalScore;
+          this.boardService.disableLettersOnBoard();
+          const quantityOfLettersToDraw = 7 - this.boardService.countLettersOnRack();
+          this.gameService.drawLetters(quantityOfLettersToDraw).subscribe(res => this.boardService.putLettersInRack(res as string[]),
+            err => console.log(err));
+        }
+      }, err => {
+        console.log(err);
+      });
   }
 
   exchangeLetters() {
+    // check marked letters if exist
     const lettersToExchange = [];
     const markedElementsInd = Array
       .from(document.getElementsByClassName('marked'))
@@ -56,13 +84,14 @@ export class ControlComponent implements OnInit {
       return;
     }
 
+    // get new letters from backend server
     this.gameService.exchangeLetters(lettersToExchange)
       .subscribe(
         res => {
           markedElementsInd.map(ind => this.boardService.getRack()[ind].letter = new Letter);
-          this.boardService.displayLettersInRack(res as string[]);
+          this.boardService.putLettersInRack(res as string[]);
           this.addNewMessage(`Nowe litery: ${res}`, MessageTypes.default);
-          this.passCounter['player1'] = false;
+          this.players.player1.pass = false;
         }, err => {
           this.addNewMessage('Błąd połączenia. Spróbuj ponownie.', MessageTypes.error);
         }
@@ -70,12 +99,14 @@ export class ControlComponent implements OnInit {
   }
 
   passMove(player: string) {
-    if (this.passCounter.player1) {
+    if (this.players.player1.pass) {
       this.addNewMessage(`${player} koniec gry.`, MessageTypes.success);
       this.boardService.disableAllLetters();
-      // TODO nieklikalne literki, wyslanie info na server
+      // TODO wyslanie info na server
+      // TODO zablokowac przyciski
+
     } else {
-      this.passCounter['player1'] = !this.passCounter['player1'];
+      this.players.player1.pass = true;
       this.addNewMessage(`${player} następny pas zakończy grę.`, MessageTypes.warning);
     }
   }
@@ -87,6 +118,8 @@ export class ControlComponent implements OnInit {
     const messageBox = document.getElementById('messageBox');
     messageBox.appendChild(p);
     messageBox.scrollTop = messageBox.scrollHeight;
-
   }
 }
+
+
+
