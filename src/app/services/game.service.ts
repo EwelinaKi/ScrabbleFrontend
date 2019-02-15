@@ -21,14 +21,6 @@ export class GameService {
   constructor(private http: HttpClient) {
   }
 
-  // TODO obsluzyc zwrot liter/ domyslnie zwracac pusta tablice
-  // drawLetters(): Observable<any> {
-  //   return this.http.get(this.baseUrl + 'draw')
-  //     .pipe(
-  //       catchError(this.handleError)
-  //     );
-  // }
-
   drawLetters() {
     return this.http.get(this.baseUrl + 'draw');
   }
@@ -39,7 +31,7 @@ export class GameService {
   }
 
   validateMove(bodyBoard: {}): Observable<any> {
-    return this.http.post(this.baseUrl + 'board', bodyBoard, )
+    return this.http.post(this.baseUrl + 'board', bodyBoard)
       .pipe(
         catchError(this.handleError)
       );

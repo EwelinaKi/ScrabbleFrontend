@@ -1,4 +1,4 @@
-<div class="board" >
+<div class="board">
   <div *ngFor="let el of boardService.board"
        id="{{el.coordinates}}"
        class="{{el.fieldClass}}"
@@ -7,5 +7,8 @@
     <img *ngIf="el.letter.url !=null"
          class="letterImg"
          src="{{el.letter.url}}"
-         cdkDrag>
-</div>
+         alt="{{el.letter.character}} letter"
+         cdkDrag
+         [cdkDragDisabled]="el.letter.disabled"
+    >
+  </div>

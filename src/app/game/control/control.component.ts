@@ -18,9 +18,9 @@ enum MessageTypes {
 })
 export class ControlComponent implements OnInit {
 
-  passCounter: object = {
-    // '' player1'' = false,
-    //  player2 = false
+  passCounter = {
+    player1: false,
+    player2: false
   };
 
   constructor(private gameService: GameService, private boardService: BoardService) {
@@ -28,11 +28,12 @@ export class ControlComponent implements OnInit {
 
   ngOnInit() {
     this.addNewMessage('Nowa gra rozpoczęta.', MessageTypes.success);
-    // this.passCounter.player1 = false;
-    // this.passCounter.player2 = false;
+    this.passCounter.player1 = false;
+    this.passCounter.player2 = false;
   }
 
   checkMove() {
+    this.passCounter['player1'] = false;
     const board = this.boardService.getBoard().map(element => {
       return {cellIndex: element.coordinates, letter: element.letter.character};
     });
@@ -59,16 +60,24 @@ export class ControlComponent implements OnInit {
       .subscribe(
         res => {
           markedElementsInd.map(ind => this.boardService.getRack()[ind].letter = new Letter);
-          this.boardService.displayLettersInRack(res);
+          this.boardService.displayLettersInRack(res as string[]);
           this.addNewMessage(`Nowe litery: ${res}`, MessageTypes.default);
+          this.passCounter['player1'] = false;
         }, err => {
           this.addNewMessage('Błąd połączenia. Spróbuj ponownie.', MessageTypes.error);
         }
       );
   }
 
-  passMove() {
-
+  passMove(player: string) {
+    if (this.passCounter.player1) {
+      this.addNewMessage(`${player} koniec gry.`, MessageTypes.success);
+      this.boardService.disableAllLetters();
+      // TODO nieklikalne literki, wyslanie info na server
+    } else {
+      this.passCounter['player1'] = !this.passCounter['player1'];
+      this.addNewMessage(`${player} następny pas zakończy grę.`, MessageTypes.warning);
+    }
   }
 
   addNewMessage(message: string, messageType: MessageTypes) {
@@ -80,5 +89,4 @@ export class ControlComponent implements OnInit {
     messageBox.scrollTop = messageBox.scrollHeight;
 
   }
-
 }

@@ -17,14 +17,11 @@ export class LettersComponent implements OnInit {
     this.boardService.prepareRack();
     this.gameService.drawLetters()
       .subscribe((letters) => {
-
-        // TODO JAAAAAREK!!!! HEEELP
-        console.log(typeof letters);
-        console.log(letters);
-        console.log(typeof [1, 2, 3, 4, 5]);
-        console.log(['a', 'b', 'c']);
-        this.boardService.displayLettersInRack(letters);
-        // this.boardService.displayLettersInRack(['a', 'b', 'c']);
+        if (this.isStringArray(letters)) {
+          this.boardService.displayLettersInRack(<string[]>letters);
+        } else {
+          throw new Error('Got crap');
+        }
       });
   }
 
@@ -40,5 +37,10 @@ export class LettersComponent implements OnInit {
     } else {
       targetImg.classList.add('marked');
     }
+  }
+
+  // TODO wywalic do innego modułu + to samo w control comp: exchangeLetters
+  private isStringArray(letters) {
+    return Array.isArray(letters) && letters.every(it => typeof it === 'string');
   }
 }
