@@ -84,7 +84,8 @@ export class BoardService {
   reverseBoard() {
     this.board.forEach(el => {
       if (!el.letter.disabled) {
-        this.putLettersInRack([el.letter.character]);
+        const slot = this.rack.find((obj) => !obj.letter.character);
+        slot.letter = el.letter;
         el.letter = new Letter();
       }
     });

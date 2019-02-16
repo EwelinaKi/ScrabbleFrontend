@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BoardService} from '../../services/board.service';
 import {GameService} from '../../services/game.service';
 import {Letter} from '../letter';
+import {IResFromBoard} from '../../shared/interfaces';
 
 enum MessageTypes {
   error = 'text-danger',
@@ -46,7 +47,7 @@ export class ControlComponent implements OnInit {
     }
 
     this.gameService.validateMove({board: boardToValidate})
-      .subscribe(res => {
+      .subscribe((res: IResFromBoard) => {
         if (res.roundScore === 0) {
           res.wordsDetails.forEach(el => {
             if (!el.valid) {
@@ -55,12 +56,15 @@ export class ControlComponent implements OnInit {
             this.boardService.reverseBoard();
           });
         } else {
-          res.wordsDetails.forEach(el => this.addNewMessage(`Nowe słowo ${el.word.toUpperCase()} za ${el.points}pkt`, MessageTypes.default));
+          res.wordsDetails.forEach(el =>
+            this.addNewMessage(`Nowe słowo ${el.word.toUpperCase()} za ${el.points}pkt`, MessageTypes.default)
+          );
           this.addNewMessage(`WYNIK RUNDY: ${res.roundScore}pkt`, MessageTypes.success);
           this.players.player1.score = res.totalScore;
           this.boardService.disableLettersOnBoard();
           const quantityOfLettersToDraw = 7 - this.boardService.countLettersOnRack();
-          this.gameService.drawLetters(quantityOfLettersToDraw).subscribe(res => this.boardService.putLettersInRack(res as string[]),
+          this.gameService.drawLetters(quantityOfLettersToDraw)
+            .subscribe(letters => this.boardService.putLettersInRack(letters as string[]),
             err => console.log(err));
         }
       }, err => {
@@ -76,7 +80,7 @@ export class ControlComponent implements OnInit {
       .map((el, ind) => {
         lettersToExchange.push(this.boardService.getRack()[ind].letter.character);
         el.classList.remove('marked');
-        return parseInt(el.parentElement.id);
+        return parseInt(el.parentElement.id, 10);
       });
 
     if (lettersToExchange.length === 0) {

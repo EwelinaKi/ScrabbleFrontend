@@ -8,6 +8,7 @@ import {MainComponent} from './main/main.component';
 import {GameModule} from './game/game.module';
 import {ServicesModule} from './services/services.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     AppRoutingModule,
     GameModule,
     ServicesModule,
-    DragDropModule
+    DragDropModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
