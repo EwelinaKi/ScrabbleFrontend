@@ -29,8 +29,7 @@ export class ControlComponent implements OnInit {
 
   ngOnInit() {
     this.addNewMessage('Nowa gra rozpoczęta.', MessageTypes.success);
-    this.players.player1.pass = false;
-    this.players.player2.pass = false;
+    this.resetPlayersData();
   }
 
   checkMove() {
@@ -65,7 +64,7 @@ export class ControlComponent implements OnInit {
           const quantityOfLettersToDraw = 7 - this.boardService.countLettersOnRack();
           this.gameService.drawLetters(quantityOfLettersToDraw)
             .subscribe(letters => this.boardService.putLettersInRack(letters as string[]),
-            err => console.log(err));
+              err => console.log(err));
         }
       }, err => {
         console.log(err);
@@ -98,6 +97,7 @@ export class ControlComponent implements OnInit {
           this.players.player1.pass = false;
         }, err => {
           this.addNewMessage('Błąd połączenia. Spróbuj ponownie.', MessageTypes.error);
+          console.log(err);
         }
       );
   }
@@ -106,22 +106,34 @@ export class ControlComponent implements OnInit {
     if (this.players.player1.pass) {
       this.addNewMessage(`${player} koniec gry.`, MessageTypes.success);
       this.boardService.disableAllLetters();
+      this.disableButtons();
       // TODO wyslanie info na server
-      // TODO zablokowac przyciski
-
     } else {
       this.players.player1.pass = true;
       this.addNewMessage(`${player} następny pas zakończy grę.`, MessageTypes.warning);
     }
   }
 
-  addNewMessage(message: string, messageType: MessageTypes) {
+  private addNewMessage(message: string, messageType: MessageTypes): void {
     const p = document.createElement('p');
     p.className = `${messageType}`;
     p.innerHTML = `${message}`;
     const messageBox = document.getElementById('messageBox');
     messageBox.appendChild(p);
     messageBox.scrollTop = messageBox.scrollHeight;
+  }
+
+  private resetPlayersData(): void {
+    this.players.player1.score = 0;
+    this.players.player2.score = 0;
+    this.players.player1.pass = false;
+    this.players.player2.pass = false;
+  }
+
+  private disableButtons() {
+    Array.from(document.getElementById('actionButtons').children).forEach(button => {
+      button.setAttribute('disabled', 'disabled');
+    });
   }
 }
 
