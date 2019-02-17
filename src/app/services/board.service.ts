@@ -53,9 +53,11 @@ export class BoardService {
     const dropElement = this.searchElement(event['container'].id);
 
     // Switch elements between board and rack
-    const tempLetter = this[dropElement.table][dropElement.idx].letter;
-    this[dropElement.table][dropElement.idx].letter = this[dragElement.table][dragElement.idx].letter;
-    this[dragElement.table][dragElement.idx].letter = tempLetter;
+    if (!this[dropElement.table][dropElement.idx].letter.disabled) {
+      const tempLetter = this[dropElement.table][dropElement.idx].letter;
+      this[dropElement.table][dropElement.idx].letter = this[dragElement.table][dragElement.idx].letter;
+      this[dragElement.table][dragElement.idx].letter = tempLetter;
+    }
   }
 
   searchElement(ind: string) {

@@ -130,7 +130,7 @@ export class ControlComponent implements OnInit {
     this.players.player2.pass = false;
   }
 
-  private disableButtons() {
+  private disableButtons(): void {
     Array.from(document.getElementById('actionButtons').children).forEach(button => {
       button.setAttribute('disabled', 'disabled');
     });
