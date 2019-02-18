@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {GameService} from '../../services/game.service';
 import {BoardService} from '../../services/board.service';
+import {isStringArray} from '../../shared/utils';
 
 @Component({
   selector: 'app-letters',
@@ -15,12 +16,12 @@ export class LettersComponent implements OnInit {
 
   ngOnInit() {
     this.boardService.prepareRack();
-    this.gameService.drawLetters()
+    this.gameService.drawSetOfLetters()
       .subscribe((letters) => {
-        if (this.isStringArray(letters)) {
+        if (isStringArray(letters)) {
           this.boardService.putLettersInRack(<string[]>letters);
         } else {
-          throw new Error('Got crap');
+          throw new Error('Should receive array of Strings.');
         }
       });
   }
@@ -37,10 +38,5 @@ export class LettersComponent implements OnInit {
     } else {
       targetImg.classList.add('marked');
     }
-  }
-
-  // TODO wywalic do innego modułu + to samo w control comp: exchangeLetters
-  private isStringArray(letters) {
-    return Array.isArray(letters) && letters.every(it => typeof it === 'string');
   }
 }

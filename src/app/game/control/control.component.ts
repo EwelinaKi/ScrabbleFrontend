@@ -11,6 +11,15 @@ enum MessageTypes {
   default = 'text-light'
 }
 
+enum Messages {
+  connectionFailed = 'Błąd połączenia. Spróbuj ponownie.',
+  unmarkedLetters = 'Nie zaznaczono liter. Kliknij na literę aby ją oznaczyć.',
+  absentWord = 'Dodaj nowe słowo.',
+  gameStart = 'Nowa gra rozpoczęta.',
+  gameOver = 'Koniec gry',
+  pass = 'Następny pas zakończy grę.'
+}
+
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
@@ -28,7 +37,7 @@ export class ControlComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addNewMessage('Nowa gra rozpoczęta.', MessageTypes.success);
+    this.addNewMessage(Messages.gameStart, MessageTypes.success);
     this.resetPlayersData();
   }
 
@@ -41,7 +50,7 @@ export class ControlComponent implements OnInit {
       .filter(value => value.letter !== null);
 
     if ((this.boardService.getBoard().filter(el => el.letter.disabled === false)).length === 0) {
-      this.addNewMessage(`Dodaj nowe słowo.`, MessageTypes.warning);
+      this.addNewMessage(Messages.absentWord, MessageTypes.warning);
       return;
     }
 
@@ -59,15 +68,19 @@ export class ControlComponent implements OnInit {
             this.addNewMessage(`Nowe słowo ${el.word.toUpperCase()} za ${el.points}pkt`, MessageTypes.default)
           );
           this.addNewMessage(`WYNIK RUNDY: ${res.roundScore}pkt`, MessageTypes.success);
-          this.players.player1.score = res.totalScore;
+          this.setScoreFor('player1', res.totalScore);
           this.boardService.disableLettersOnBoard();
           const quantityOfLettersToDraw = 7 - this.boardService.countLettersOnRack();
           this.gameService.drawLetters(quantityOfLettersToDraw)
             .subscribe(letters => this.boardService.putLettersInRack(letters as string[]),
-              err => console.log(err));
+              err => {
+                console.log(err);
+                this.addNewMessage(Messages.connectionFailed, MessageTypes.error);
+              });
         }
       }, err => {
         console.log(err);
+        this.addNewMessage(Messages.connectionFailed, MessageTypes.error);
       });
   }
 
@@ -83,20 +96,17 @@ export class ControlComponent implements OnInit {
       });
 
     if (lettersToExchange.length === 0) {
-      this.addNewMessage(`Nie zaznaczono liter. Kliknij na literę aby ją oznaczyć.`, MessageTypes.warning);
+      this.addNewMessage(Messages.unmarkedLetters, MessageTypes.warning);
       return;
     }
 
     // get new letters from backend server
     this.gameService.exchangeLetters(lettersToExchange)
       .subscribe(
-        res => {
-          markedElementsInd.map(ind => this.boardService.getRack()[ind].letter = new Letter);
-          this.boardService.putLettersInRack(res as string[]);
-          this.addNewMessage(`Nowe litery: ${res}`, MessageTypes.default);
-          this.players.player1.pass = false;
+        letters => {
+          this.setNewLettersInPlace(markedElementsInd, letters);
         }, err => {
-          this.addNewMessage('Błąd połączenia. Spróbuj ponownie.', MessageTypes.error);
+          this.addNewMessage(Messages.connectionFailed, MessageTypes.error);
           console.log(err);
         }
       );
@@ -104,14 +114,28 @@ export class ControlComponent implements OnInit {
 
   passMove(player: string) {
     if (this.players.player1.pass) {
-      this.addNewMessage(`${player} koniec gry.`, MessageTypes.success);
+      this.addNewMessage(Messages.gameOver, MessageTypes.success);
       this.boardService.disableAllLetters();
       this.disableButtons();
       // TODO wyslanie info na server
     } else {
-      this.players.player1.pass = true;
-      this.addNewMessage(`${player} następny pas zakończy grę.`, MessageTypes.warning);
+      this.players[player].pass = true;
+      this.addNewMessage(Messages.pass, MessageTypes.warning);
     }
+  }
+
+  private setNewLettersInPlace(slots, letters): void {
+    slots.forEach(ind => this.boardService.getRack()[ind].letter = new Letter);
+    this.boardService.putLettersInRack(letters as string[]);
+    this.addNewMessage(`Nowe litery: ${letters}`, MessageTypes.default);
+    this.changePassStatusFor('player1');
+  }
+
+  private resetPlayersData(): void {
+    this.players.player1.score = 0;
+    this.players.player2.score = 0;
+    this.players.player1.pass = false;
+    this.players.player2.pass = false;
   }
 
   private addNewMessage(message: string, messageType: MessageTypes): void {
@@ -123,19 +147,17 @@ export class ControlComponent implements OnInit {
     messageBox.scrollTop = messageBox.scrollHeight;
   }
 
-  private resetPlayersData(): void {
-    this.players.player1.score = 0;
-    this.players.player2.score = 0;
-    this.players.player1.pass = false;
-    this.players.player2.pass = false;
-  }
-
   private disableButtons(): void {
     Array.from(document.getElementById('actionButtons').children).forEach(button => {
       button.setAttribute('disabled', 'disabled');
     });
   }
+
+  private changePassStatusFor(player: string): void {
+    this.players[player].pass = !this.players[player].pass;
+  }
+
+  private setScoreFor(player: string, score: number): void {
+    this.players[player].score = score;
+  }
 }
-
-
-

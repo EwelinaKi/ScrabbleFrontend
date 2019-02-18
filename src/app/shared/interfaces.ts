@@ -4,8 +4,21 @@ export interface IResFromBoard {
   wordsDetails: IWordsDetail[];
 }
 
+export interface IResLetters {
+  letters: string[];
+}
+
 export interface IWordsDetail {
   valid: boolean;
   word: string;
   points: number;
+}
+
+export interface IBoard {
+  board: ILetter[];
+}
+
+export interface ILetter {
+  cellIndex: string;
+  letter: string;
 }
