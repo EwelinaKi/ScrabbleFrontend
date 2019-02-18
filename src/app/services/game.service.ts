@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IBoard, IResFromBoard, IResLetters} from '../shared/interfaces';
+import {IBoard, IResFromBoard, ILetters} from '../shared/interfaces';
 
 
 @Injectable({
@@ -14,31 +14,23 @@ export class GameService {
   constructor(private http: HttpClient) {
   }
 
-  drawSetOfLetters() {
-    return this.http.get(this.baseUrl + 'draw');
+  drawSetOfLetters(): Observable<ILetters> {
+    return this.http.get<ILetters>(this.baseUrl + 'draw');
   }
 
-  drawLetters(number: number) {
-    return this.http.get(this.baseUrl + 'draw', {params: {draw: number.toString()}});
+  drawLetters(number: number): Observable<ILetters> {
+    return this.http.get<ILetters>(this.baseUrl + 'draw', {params: {draw: number.toString()}});
   }
 
-  exchangeLetters(letters: string[]) {
-    return this.http.post(this.baseUrl + 'draw', letters);
+  exchangeLetters(letters: string[]): Observable<ILetters> {
+    return this.http.post<ILetters>(this.baseUrl + 'draw', letters);
   }
-
-  // drawSetOfLetters(): Observable<IResLetters> {
-  //   return this.http.get<IResLetters>(this.baseUrl + 'draw');
-  // }
-  //
-  // drawLetters(number: number): Observable<IResLetters> {
-  //   return this.http.get<IResLetters>(this.baseUrl + 'draw', {params: {draw: number.toString()}});
-  // }
-  //
-  // exchangeLetters(letters: string[]): Observable<IResLetters> {
-  //   return this.http.post<IResLetters>(this.baseUrl + 'draw', letters);
-  // }
 
   validateMove(bodyBoard: IBoard): Observable<IResFromBoard> {
     return this.http.post<IResFromBoard>(this.baseUrl + 'board', bodyBoard);
+  }
+
+  restartGame() {
+    return this.http.get(this.baseUrl + 'restart');
   }
 }

@@ -4,7 +4,7 @@ export interface IResFromBoard {
   wordsDetails: IWordsDetail[];
 }
 
-export interface IResLetters {
+export interface ILetters {
   letters: string[];
 }
 

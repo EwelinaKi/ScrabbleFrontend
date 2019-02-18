@@ -11,13 +11,24 @@
   </div>
 </div>
 
-<div class="container mt-2 mb-2">
-  <div id="actionButtons" class="row align-items-baseline justify-content-lg-between">
-    <button type="button" class="btn btn-primary btn-sm" (click)="checkMove()">Akceptuj</button>
-    <button type="button" class="btn btn-secondary btn-sm" (click)="exchangeLetters()">Wymień</button>
-    <button type="button" class="btn btn-primary btn-sm " (click)="passMove('playerNAME')">Pasuj</button>
+<!--<p class="mt-4">Przebieg gry</p>-->
+<!--<div id="messageBox" class="background info mb-4"></div>-->
+
+<div class="background  mt-4 mb-4">
+  <div class="container">
+    <div class="row align-items-end">
+      <div class="col-3">
+        <p class="score"><b>RAPORT</b></p>
+      </div>
+      <div  id="messageBox" class="col-9 info"></div>
+    </div>
   </div>
 </div>
 
-<div id="messageBox" class="background info">
+<div class="container mt-1 mb-2">
+  <div id="actionButtons" class="row align-items-baseline justify-content-lg-between">
+    <button type="button" class="btn btn-primary btn-sm" (click)="checkMove()">Akceptuj</button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="exchangeLetters()">Wymień</button>
+    <button type="button" class="btn btn-primary btn-sm " (click)="passMove()">Pasuj</button>
+  </div>
 </div>

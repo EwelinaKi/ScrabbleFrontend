@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Slot} from '../game/slot';
 import {Letter} from '../game/letter';
 
-
 @Injectable({
   providedIn: 'root'
 })

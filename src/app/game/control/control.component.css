@@ -1,10 +1,15 @@
+p {
+  font-weight: normal;
+  text-align: right;
+}
+
 #messageBox {
   overflow: auto;
+  padding-right: 15px;
+  overflow-y: scroll;
   font-weight: lighter;
   font-style: italic;
   text-align: right;
-  padding-right: 15px;
-  overflow-y: scroll;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* IE 10+ */
 }

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {GameService} from '../../services/game.service';
 import {BoardService} from '../../services/board.service';
-import {isStringArray} from '../../shared/utils';
+import {ILetters} from '../../shared/interfaces';
 
 @Component({
   selector: 'app-letters',
@@ -17,12 +17,9 @@ export class LettersComponent implements OnInit {
   ngOnInit() {
     this.boardService.prepareRack();
     this.gameService.drawSetOfLetters()
-      .subscribe((letters) => {
-        if (isStringArray(letters)) {
-          this.boardService.putLettersInRack(<string[]>letters);
-        } else {
-          throw new Error('Should receive array of Strings.');
-        }
+      .subscribe((res: ILetters) => {
+        console.log(res.letters);
+        this.boardService.putLettersInRack(res.letters);
       });
   }
 

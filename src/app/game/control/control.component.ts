@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BoardService} from '../../services/board.service';
 import {GameService} from '../../services/game.service';
 import {Letter} from '../letter';
-import {IResFromBoard} from '../../shared/interfaces';
+import {ILetters, IResFromBoard} from '../../shared/interfaces';
 
 enum MessageTypes {
   error = 'text-danger',
@@ -30,7 +30,6 @@ export class ControlComponent implements OnInit {
 
   players = {
     player1: {pass: false, score: 0},
-    player2: {pass: false, score: 0}
   };
 
   constructor(private gameService: GameService, private boardService: BoardService) {
@@ -72,10 +71,11 @@ export class ControlComponent implements OnInit {
           this.boardService.disableLettersOnBoard();
           const quantityOfLettersToDraw = 7 - this.boardService.countLettersOnRack();
           this.gameService.drawLetters(quantityOfLettersToDraw)
-            .subscribe(letters => this.boardService.putLettersInRack(letters as string[]),
+            .subscribe((resp: ILetters) => this.boardService.putLettersInRack(resp.letters),
               err => {
                 console.log(err);
                 this.addNewMessage(Messages.connectionFailed, MessageTypes.error);
+                this.addNewMessage("dupa", MessageTypes.error);
               });
         }
       }, err => {
@@ -103,8 +103,8 @@ export class ControlComponent implements OnInit {
     // get new letters from backend server
     this.gameService.exchangeLetters(lettersToExchange)
       .subscribe(
-        letters => {
-          this.setNewLettersInPlace(markedElementsInd, letters);
+        (res: ILetters) => {
+          this.setNewLettersInPlace(markedElementsInd, res.letters);
         }, err => {
           this.addNewMessage(Messages.connectionFailed, MessageTypes.error);
           console.log(err);
@@ -112,14 +112,14 @@ export class ControlComponent implements OnInit {
       );
   }
 
-  passMove(player: string) {
+  passMove() {
     if (this.players.player1.pass) {
       this.addNewMessage(Messages.gameOver, MessageTypes.success);
       this.boardService.disableAllLetters();
       this.disableButtons();
       // TODO wyslanie info na server
     } else {
-      this.players[player].pass = true;
+      this.players.player1.pass = true;
       this.addNewMessage(Messages.pass, MessageTypes.warning);
     }
   }
@@ -133,9 +133,7 @@ export class ControlComponent implements OnInit {
 
   private resetPlayersData(): void {
     this.players.player1.score = 0;
-    this.players.player2.score = 0;
     this.players.player1.pass = false;
-    this.players.player2.pass = false;
   }
 
   private addNewMessage(message: string, messageType: MessageTypes): void {
