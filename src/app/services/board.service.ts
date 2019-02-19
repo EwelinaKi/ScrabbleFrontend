@@ -8,8 +8,8 @@ import {Letter} from '../game/letter';
 export class BoardService {
 
   imgPath = 'assets/img/letters';
-  board = [];
-  rack = [];
+  board: Slot[] = [];
+  rack: Slot[] = [];
 
   constructor() {
   }
