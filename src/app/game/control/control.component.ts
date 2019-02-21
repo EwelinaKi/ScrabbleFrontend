@@ -93,6 +93,8 @@ export class ControlComponent implements OnInit {
       .subscribe(
         (res: ILetters) => {
           this.setNewLettersInPlace(markedElementsInd, res.letters);
+          this.players.setScoreFor('player1', res.totalScore);
+          addNewDefaultMessage(`Koszt wymiany to -${res.roundScore}pkt.`);
         }, err => {
           addNewErrorMessage(Messages.connectionFailed);
           console.log(err);

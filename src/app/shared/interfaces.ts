@@ -9,6 +9,8 @@ export interface IResFromBoard {
 
 export interface ILetters {
   letters: string[];
+  totalScore: number;
+  roundScore: number;
 }
 
 export interface IWordsDetail {
