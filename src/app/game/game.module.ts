@@ -15,4 +15,4 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
   exports: [GameComponent],
   // entryComponents: [GameComponent]
 })
-export class GameModule { }
+export class GameModule {}

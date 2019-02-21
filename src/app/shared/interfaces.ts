@@ -2,6 +2,9 @@ export interface IResFromBoard {
   roundScore: number;
   totalScore: number;
   wordsDetails: IWordsDetail[];
+  user: string;
+  actualBoard: IBoard;
+  messages: string[];
 }
 
 export interface ILetters {

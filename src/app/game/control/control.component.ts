@@ -3,10 +3,10 @@ import {BoardService} from '../../services/board.service';
 import {GameService} from '../../services/game.service';
 import {ILetter, ILetters, IResFromBoard, IWordsDetail} from '../../shared/interfaces';
 import {Letter} from '../letter';
-import {Player} from '../player';
 import {addNewDefaultMessage, addNewErrorMessage, addNewSuccessMessage, addNewWarningMessage} from './control.message.provider';
 import {environment} from '../../../environments/environment';
 import {Slot} from '../slot';
+import {PlayerService} from '../../services/player.service';
 
 enum Messages {
   connectionFailed = 'Błąd połączenia. Spróbuj ponownie.',
@@ -25,19 +25,17 @@ enum Messages {
 
 export class ControlComponent implements OnInit {
 
-  players = {
-    player1: new Player(),
-  };
-
   passNonNullLetters = (value: ILetter): boolean => value.letter !== null;
   passActiveLetters = (element: Slot): boolean => !element.letter.disabled;
 
-  constructor(private gameService: GameService, private boardService: BoardService) {
+  constructor(
+    private gameService: GameService,
+    private boardService: BoardService,
+    private players: PlayerService,
+  ) {
   }
 
   ngOnInit() {
-    addNewSuccessMessage(Messages.gameStart);
-    this.resetPlayersData();
   }
 
   checkMove() {
@@ -46,7 +44,7 @@ export class ControlComponent implements OnInit {
       return;
     }
 
-    this.players.player1.revive();
+    this.players.revive('player1');
 
     const lettersToValidate = this.boardService.getBoard()
       .map(element => ({cellIndex: element.coordinates, letter: element.letter.character}))
@@ -75,13 +73,13 @@ export class ControlComponent implements OnInit {
   }
 
   passMove() {
-    if (this.players.player1.passed) {
+    if (this.players.checkPassedState('player1')) {
       addNewSuccessMessage(Messages.gameOver);
       this.boardService.disableAllLetters();
-      this.disableButtons();
+      this.players.stopOngoingGame();
       // TODO wyslanie info na server
     } else {
-      this.players.player1.pass();
+      this.players.pass('player1');
       addNewWarningMessage(Messages.passed);
     }
   }
@@ -139,22 +137,8 @@ export class ControlComponent implements OnInit {
     this.changePassStatusFor('player1');
   }
 
-  private resetPlayersData(): void {
-    this.players.player1.reset();
-  }
-
-  private disableButtons(): void {
-    Array.from(document.getElementById('actionButtons').children).forEach(button => {
-      button.setAttribute('disabled', 'disabled');
-    });
-  }
-
   private changePassStatusFor(player: string): void {
     this.players[player].passed = !this.players[player].passed;
-  }
-
-  private setScoreFor(player: string, score: number): void {
-    this.players[player].score = score;
   }
 
   private handleBadMove(wordsDetails: IWordsDetail[]): void {
@@ -171,7 +155,7 @@ export class ControlComponent implements OnInit {
 
     addNewSuccessMessage(`WYNIK RUNDY: ${res.roundScore}pkt`);
 
-    this.setScoreFor('player1', res.totalScore);
+    this.players.setScoreFor('player1', res.totalScore);
     this.boardService.disableLettersOnBoard();
 
     const numberOfLettersToDraw = environment.maxNumberOfLettersOnRack - this.boardService.countLettersOnRack();

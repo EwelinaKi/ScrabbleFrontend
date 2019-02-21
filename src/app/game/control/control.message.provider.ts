@@ -21,6 +21,13 @@ export function addNewErrorMessage(message: string): void {
   addNewMessage(message, MessageTypes.error);
 }
 
+export function cleanReports() {
+  const node = document.getElementById('messageBox');
+  while (node.lastChild) {
+    node.removeChild(node.lastChild);
+  }
+}
+
 function addNewMessage(message: string, messageType: MessageTypes): void {
   const p = document.createElement('p');
   p.className = `${messageType}`;

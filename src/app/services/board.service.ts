@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
 import {Slot} from '../game/slot';
 import {Letter} from '../game/letter';
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +30,8 @@ export class BoardService {
     }
   }
 
-  prepareBoard(boxesOnBoard: string[][]) {
-    boxesOnBoard.forEach((array, row) => {
+  prepareBoard() {
+    environment.classesForBoxesOnBoard.forEach((array, row) => {
       array.forEach((element, col) => {
         this.board.push(new Slot((100 * row + col).toString(), element));
       });
@@ -75,7 +77,7 @@ export class BoardService {
 
   disableAllLetters() {
     this.disableLettersOnBoard();
-    this.rack.forEach(el => {
+    this.rack.forEach((el: Slot) => {
       if (el.letter.character) {
         el.letter.disabled = true;
       }
@@ -83,12 +85,24 @@ export class BoardService {
   }
 
   reverseBoard() {
-    this.board.forEach(el => {
+    this.board.forEach((el: Slot) => {
       if (!el.letter.disabled) {
         const slot = this.rack.find((obj) => !obj.letter.character);
         slot.letter = el.letter;
         el.letter = new Letter();
       }
+    });
+  }
+
+  resetBoard() {
+    this.board.forEach((slot: Slot) => {
+      slot.letter = new Letter();
+    });
+  }
+
+  resetRack() {
+    this.rack.forEach((slot: Slot) => {
+      slot.letter = new Letter();
     });
   }
 }

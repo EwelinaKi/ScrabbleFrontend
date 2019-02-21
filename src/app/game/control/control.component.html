@@ -5,14 +5,11 @@
         <p class="score"><b>PUNKTY</b></p>
       </div>
       <div class="col-9">
-        <p class="ml-2 mb-1 mt-1 points"><em>{{players.player1.score}}</em></p>
+        <p class="ml-2 mb-1 mt-1 points"><em>{{players.getScore('player1') ? players.getScore('player1') : 0 }}</em></p>
       </div>
     </div>
   </div>
 </div>
-
-<!--<p class="mt-4">Przebieg gry</p>-->
-<!--<div id="messageBox" class="background info mb-4"></div>-->
 
 <div class="background  mt-4 mb-4">
   <div class="container">
@@ -26,7 +23,7 @@
 </div>
 
 <div class="container mt-1 mb-2">
-  <div id="actionButtons" class="row align-items-baseline justify-content-lg-between">
+  <div id="actionButtons" class="row align-items-baseline justify-content-lg-between"  [style.visibility]="players.isOngoingGame? 'visible': 'hidden'">
     <button type="button" class="btn btn-primary btn-sm" (click)="checkMove()">Akceptuj</button>
     <button type="button" class="btn btn-secondary btn-sm" (click)="exchangeLetters()">Wymień</button>
     <button type="button" class="btn btn-primary btn-sm " (click)="passMove()">Pasuj</button>

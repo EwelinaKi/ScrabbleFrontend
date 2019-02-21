@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IBoard, IResFromBoard, ILetters} from '../shared/interfaces';
 import {environment} from '../../environments/environment';
+import {IBoard, IResFromBoard, ILetters} from '../shared/interfaces';
 
 
 @Injectable({

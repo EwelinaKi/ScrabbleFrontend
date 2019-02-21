@@ -4,6 +4,7 @@ import {CommonModule} from '@angular/common';
 
 import {GameService} from './game.service';
 import {BoardService} from './board.service';
+import {PlayerService} from './player.service';
 
 @NgModule({
   declarations: [],
@@ -11,7 +12,7 @@ import {BoardService} from './board.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [GameService, BoardService]
+  providers: [GameService, BoardService, PlayerService]
 })
 export class ServicesModule {
 }
