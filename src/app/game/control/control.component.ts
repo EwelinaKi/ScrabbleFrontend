@@ -92,9 +92,7 @@ export class ControlComponent implements OnInit {
     this.gameService.exchangeLetters(lettersToExchange)
       .subscribe(
         (res: ILetters) => {
-          this.setNewLettersInPlace(markedElementsInd, res.letters);
-          this.players.setScoreFor('player1', res.totalScore);
-          addNewDefaultMessage(`Koszt wymiany to -${res.roundScore}pkt.`);
+          this.setNewLettersInPlace(markedElementsInd, res);
         }, err => {
           addNewErrorMessage(Messages.connectionFailed);
           console.log(err);
@@ -132,11 +130,13 @@ export class ControlComponent implements OnInit {
     el.classList.remove('marked');
   }
 
-  private setNewLettersInPlace(slots, letters): void {
+  private setNewLettersInPlace(slots, res): void {
     slots.forEach(ind => this.boardService.getRack()[ind].letter = new Letter);
-    this.boardService.putLettersInRack(letters as string[]);
-    addNewDefaultMessage(`Nowe litery: ${letters}`);
+    this.boardService.putLettersInRack(res.letters as string[]);
     this.changePassStatusFor('player1');
+    addNewDefaultMessage(`Nowe litery: ${res.letters}`);
+    // this.players.setScoreFor('player1', res.totalScore);
+    // addNewDefaultMessage(`Koszt wymiany -${res.roundScore}pkt.`);
   }
 
   private changePassStatusFor(player: string): void {
