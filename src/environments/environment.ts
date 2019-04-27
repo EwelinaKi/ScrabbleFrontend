@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   maxNumberOfLettersOnRack: 7,
-  apiEndpoint: 'http://localhost:8080/scrabble/',
+  apiEndpoint: 'https://scrabble--backend.herokuapp.com/scrabble/',
   classesForBoxesOnBoard: [
       ['word3', '', '', 'letter2', '', '', '', 'word3', '', '', '', 'letter2', '', '', 'word3'],
       ['', 'word2', '', '', '', 'letter3', '', '', '', 'letter3', '', '', '', 'word2', ''],
