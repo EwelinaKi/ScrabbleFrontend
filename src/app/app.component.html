@@ -6,12 +6,14 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="top">Top 10</a>
-      </li>
     </ul>
     <a class="btn btn-warning my-2 my-sm-0" type="submit" (click)="startGame()">Nowa gra</a>
   </div>
 </nav>
+
+<div class="loading" *ngIf="loading">
+  <img class="loadingImg" src="../assets/img/loading.gif"/>
+  <p class="loadingText">Please be patient, count to 10..., we're waking up the backend on Heroku for you.</p>
+</div>
 
 <router-outlet></router-outlet>

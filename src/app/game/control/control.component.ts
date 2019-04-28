@@ -29,9 +29,9 @@ export class ControlComponent implements OnInit {
   passActiveLetters = (element: Slot): boolean => !element.letter.disabled;
 
   constructor(
+    public players: PlayerService,
     private gameService: GameService,
     private boardService: BoardService,
-    private players: PlayerService,
   ) {
   }
 
@@ -135,8 +135,6 @@ export class ControlComponent implements OnInit {
     this.boardService.putLettersInRack(res.letters as string[]);
     this.changePassStatusFor('player1');
     addNewDefaultMessage(`Nowe litery: ${res.letters}`);
-    // this.players.setScoreFor('player1', res.totalScore);
-    // addNewDefaultMessage(`Koszt wymiany -${res.roundScore}pkt.`);
   }
 
   private changePassStatusFor(player: string): void {

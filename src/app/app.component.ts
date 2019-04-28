@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';
+  loading = false;
 
   constructor(
     private gameService: GameService,
@@ -28,10 +28,12 @@ export class AppComponent implements OnInit {
   }
 
   startGame() {
+    this.loading = true;
     this.players.clearAllPlayers();
     this.players.addPlayer('player1');
     this.gameService.restartGame()
       .subscribe(() => {
+          this.loading = false;
           this.boardService.resetBoard();
           this.boardService.resetRack();
           this.players.startOngoingGame();
@@ -44,6 +46,9 @@ export class AppComponent implements OnInit {
             addNewSuccessMessage('Nowa gra rozpoczęta');
           });
         },
-        err => console.log(err));
+        err => {
+          this.loading = false;
+          console.log(err);
+        });
   }
 }

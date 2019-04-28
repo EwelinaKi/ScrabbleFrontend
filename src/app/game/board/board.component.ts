@@ -8,7 +8,7 @@ import {BoardService} from '../../services/board.service';
 })
 export class BoardComponent implements OnInit {
 
-  constructor(private boardService: BoardService) {
+  constructor(public boardService: BoardService) {
   }
 
   ngOnInit() {
