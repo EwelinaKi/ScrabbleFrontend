@@ -1,4 +1,4 @@
-# Frontend
+# Litterki (scrabble game) frontend
 
 This project was made by:
 
