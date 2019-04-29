@@ -1,3 +1,55 @@
-p {
+.main {
+  width: 80vw;
+  min-width: 800px;
+  height: auto;
+  margin: 50px auto;
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: 20px;
+  padding: 40px;
+
   color: white;
+  font-weight: lighter;
+}
+
+h4 {
+  margin-bottom: 40px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.authorImg {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.authors, .authorCard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.authorCard {
+  width: 50%;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.infos {
+  padding-left: 20px;
+}
+
+.name {
+  color: var(--warning);
+  font-weight: bolder;
+  margin-bottom: 0;
+}
+
+.role {
+  font-size: small;
+}
+
+.infos a {
+  font-size: medium;
 }

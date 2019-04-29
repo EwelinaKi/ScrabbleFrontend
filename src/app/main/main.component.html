@@ -1,4 +1,38 @@
-<p>
-  main works!
-</p>
+<div class="main">
+  <h4>Cześć, zapewne jesteś tutaj poniweaż chcesz zobaczyć naszą pracę. Pozwól, że opowiemy Ci trochę o naszym projekcie.</h4>
+  <div class="authors">
+    <div class="authorCard">
+      <div>
+        <img src="../../assets/img/authors/wd.jpg" class="authorImg" alt="Weronika Dębowska"/>
+      </div>
+      <div  class="infos">
+        <p class="name">Weronika Dębowska</p>
+        <p class="role">backend</p>
+        <a href="https://github.com/WeronikaDebowska" rel="nofollow" target="_blank">Github</a><br/>
+        <a href="https://www.linkedin.com/in/weronika-debowska/" rel="nofollow" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="authorCard">
+      <div>
+        <img src="../../assets/img/authors/ek.jpg" class="authorImg" alt="Ewelina Kijanowska"/>
+      </div>
+      <div class="infos">
+        <p class="name">Ewelina Kijanowska</p>
+        <p class="role">frontend</p>
+        <a href="https://github.com/EwelinaKi" rel="nofollow" target="_blank">Github</a><br/>
+        <a href="https://www.linkedin.com/in/ewelinakijanowska/" rel="nofollow" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+  <p>Był to nasz pierwszy projekt w stacku Springowo - Angularowym i właściwie nigdy nie miał ujrzeć światła wielkiej sieci WWW. Składa się z części backendowej i aplikacji frontendowej. Wiemy, że sama gra zawiera jeszcze parę błędów, naprawiamy je w wolnym czasie. Niemniej główny cel jaki założyłyśmy dla tej aplikacji, czyki komunikacja serwera i klienta po RESTOWym Api, został zrealizowany.</p>
+  <h5>Teraz trochę bardziej technicznie o projekcie</h5>
+  <p>Backend aplikacji napisany w języku JAVA przy wykorzystaniu SpringBoot'a oraz Spring Data i Hibernate do połączenia z bazą danych PostgreSQL zawierającą ok. 3 mln słów słownika języka polskiego. Jednak tutaj prezentowana wersja wykorzystuje inne podejście, czyli wczytanie słów z pliku. Wynika to głownie z problemów związanych z hostingiem tak dużej bazy.</p>
+  <p>Frontend został napisany w Angularze 7 przy współudziale Bootstrapa i Angular Material. <span class="underline">Projekt ten z założenia nie był przednaczony na urządzenia mobilne</span>, ze względu na rozmiar planszy. Oglądaj i graj na desktopie. Wszystkie grafiki są autorstwa Eweliny.</p>
+  <h5>A ta częśc dla wyjątkowo wytrwałych</h5>
+  <p>Komunikacja aplikacji frontendowej i backendowej odbywa się z użyciem usług zaprojektowanych zgodnie z założeniami RESTful API.
+    W aplikacji backendowej po każdej kolejce analizowane są wszystkie zapisane pola na planszy w celu walidacji ruchu gracza. Dane te zostają odczytane z ciała zapytania HTTP wysłanego przez aplikację kliencką.
+    Najpierw następuje wykrycie wszystkich nowo położonych literek oraz sprawdzenie, czy tworzą one jedną pionową lub poziomą linię. Następnie wykrywane są wszystkie nowo powstałe ciągi znaków (zarówno w linii nowo położonych literek jak i w kierunku do niej prostopadłym). Takiego zabezpieczenia brakuje jeszcze w części frontendowej. Po ich wykryciu następuje sprawdzenie, czy utworzone ciągi tworzą wyrazy znajdujące się w bazie. Jeśli tak, następuje naliczenie punktów za wszystkie ułożone słowa zgodnie z zasadami oryginalnej gry, czyli uwzględniając premie literowe i słowne, dwu- i trzykrotne w zależności od umiejscowienia na planszy nowo położonych literek. W przypadku, gdy choć jeden z ułożonych ciągów nie znajduje się w bazie, punkty nie są naliczane.
+    Informacja o poprawności ruchu oraz liczba zdobytych przez gracza punktów i całkowita liczba punktów zdobytych do tej pory są wysyłane w odpowiedzi na zapytanie aplikacji klienckiej.
+  </p>
+</div>
 
