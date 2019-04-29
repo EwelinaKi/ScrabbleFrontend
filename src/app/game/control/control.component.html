@@ -5,7 +5,7 @@
         <p class="score"><b>PUNKTY</b></p>
       </div>
       <div class="col-9">
-        <p class="ml-2 mb-1 mt-1 points"><em>{{players.getScore('player1') ? players.getScore('player1') : 0 }}</em></p>
+        <p class="ml-2 mb-1 mt-1 points"><em>{{players.hasPlayers ? players.getScore('player1') : 0 }}</em></p>
       </div>
     </div>
   </div>

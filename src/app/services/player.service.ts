@@ -44,6 +44,10 @@ export class PlayerService {
     return this.players[playerName].score;
   }
 
+  hasPlayers() {
+    return this.players === {};
+  }
+
   clearAllPlayers(): void {
     this.players = {};
   }
